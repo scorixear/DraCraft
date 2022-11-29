@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>DraCraft_Logo.ico</ApplicationIcon>
+    <AssemblyName>DraCraft</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
