@@ -1,4 +1,4 @@
-﻿namespace DraCraftModel
+﻿namespace DraCraft.Model
 {
     public class Resource : IEquatable<Resource>
     {

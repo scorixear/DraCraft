@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace DraCraftModel
+namespace DraCraft.Model
 {
     public class CraftableResource : Resource
     {
         [JsonIgnore]
-        public Dictionary<(string, TierType), uint> Resources { get; set; }
-        public Dictionary<string, uint> ResourceProxy
+        public Dictionary<(string, TierType), double> Resources { get; set; }
+        public Dictionary<string, double> ResourceProxy
         {
             get
             {
@@ -17,25 +17,25 @@ namespace DraCraftModel
                 Resources = DeserializeResource(value);
             }
         }
-        public CraftableResource(string name, TierType tier, CategoryType category, Dictionary<(string, TierType), uint> resources) : base(name, tier, category)
+        public CraftableResource(string name, TierType tier, CategoryType category, Dictionary<(string, TierType), double> resources) : base(name, tier, category)
         {
             Resources = resources;
         }
 
-        private Dictionary<string, uint> SerializeResource(Dictionary<(string, TierType), uint> resources)
+        private Dictionary<string, double> SerializeResource(Dictionary<(string, TierType), double> resources)
         {
-            Dictionary<string, uint> returnDic = new();
-            foreach (KeyValuePair<(string, TierType), uint> pair in resources)
+            Dictionary<string, double> returnDic = new();
+            foreach (KeyValuePair<(string, TierType), double> pair in resources)
             {
                 returnDic.Add($"({pair.Key.Item1}, {pair.Key.Item2})", pair.Value);
             }
             return returnDic;
         }
 
-        private Dictionary<(string, TierType), uint> DeserializeResource(Dictionary<string, uint> resources)
+        private Dictionary<(string, TierType), double> DeserializeResource(Dictionary<string, double> resources)
         {
-            Dictionary<(string, TierType), uint> returnDic = new();
-            foreach (KeyValuePair<string, uint> pair in resources)
+            Dictionary<(string, TierType), double> returnDic = new();
+            foreach (KeyValuePair<string, double> pair in resources)
             {
                 string[] keySplit = pair.Key.Split(",");
                 returnDic.Add((keySplit[0][1..], Enum.Parse<TierType>(keySplit[1][1..^1])), pair.Value);
@@ -43,10 +43,10 @@ namespace DraCraftModel
             return returnDic;
         }
 
-        public Dictionary<Resource, uint> GetBaseResources()
+        public Dictionary<Resource, double> GetBaseResources()
         {
-            Dictionary<Resource, uint> returnDictionary = new Dictionary<Resource, uint>();
-            foreach (KeyValuePair<(string, TierType), uint> ingredient in Resources)
+            Dictionary<Resource, double> returnDictionary = new Dictionary<Resource, double>();
+            foreach (KeyValuePair<(string, TierType), double> ingredient in Resources)
             {
                 Resource? resource = ResourceList.Current.Resources.Where(elem => elem.Name == ingredient.Key.Item1 && elem.Tier == ingredient.Key.Item2).FirstOrDefault();
                 if (resource is null)
@@ -67,8 +67,8 @@ namespace DraCraftModel
                 }
                 else
                 {
-                    Dictionary<Resource, uint>? subIngredients = (resource as CraftableResource)?.GetBaseResources();
-                    foreach (KeyValuePair<Resource, uint> pair in subIngredients ?? new Dictionary<Resource, uint>())
+                    Dictionary<Resource, double>? subIngredients = (resource as CraftableResource)?.GetBaseResources();
+                    foreach (KeyValuePair<Resource, double> pair in subIngredients ?? new Dictionary<Resource, double>())
                     {
                         if (returnDictionary.ContainsKey(pair.Key))
                         {
@@ -83,7 +83,7 @@ namespace DraCraftModel
             }
             return returnDictionary;
         }
-        public TreeResource ResolveToTree(uint amount)
+        public TreeResource ResolveToTree(double amount)
         {
             TreeResource treeResource = new()
             {
@@ -94,7 +94,7 @@ namespace DraCraftModel
             };
 
 
-            foreach (KeyValuePair<(string, TierType), uint> pair in Resources)
+            foreach (KeyValuePair<(string, TierType), double> pair in Resources)
             {
                 Resource? resource = ResourceList.Current.Resources.Where(elem => elem.Name == pair.Key.Item1 && elem.Tier == pair.Key.Item2).FirstOrDefault();
                 if (resource is null)
@@ -128,7 +128,7 @@ namespace DraCraftModel
         public TierType Tier { get; set; }
         public CategoryType Category { get; set; }
 
-        public uint Amount { get; set; }
+        public double Amount { get; set; }
         public List<TreeResource> Resources { get; set; } = new List<TreeResource>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DraCraftModel
+namespace DraCraft.Model
 {
     public class Config
     {
@@ -8,12 +8,14 @@ namespace DraCraftModel
         public static readonly string AppFolder = Path.GetDirectoryName(AppPath) ?? "";
         public static readonly string ConfigPath = Path.Combine(AppFolder, "config.json");
         public static Config? Current { get; private set; }
-        private Config(InternalConfig internalConfig) {
+        private Config(InternalConfig internalConfig)
+        {
             this.internalConfig = internalConfig;
         }
         private InternalConfig internalConfig;
 
-        public string DatabasePath {
+        public string DatabasePath
+        {
             get
             {
                 return internalConfig.DataBasePath;
@@ -47,7 +49,7 @@ namespace DraCraftModel
             if (File.Exists(ConfigPath))
             {
                 return JsonConvert.DeserializeObject<InternalConfig>(File.ReadAllText(ConfigPath)) ?? throw new InvalidConfigException();
-            } 
+            }
             else
             {
                 InternalConfig config = new InternalConfig();

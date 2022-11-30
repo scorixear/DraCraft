@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DraCraftModel
+namespace DraCraft.Model
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CategoryType
@@ -22,6 +22,7 @@ namespace DraCraftModel
         Kochkunst,
         Sonstiges,
         Waffen,
-        Kleidung
+        Kleidung,
+        Möbel
     }
 }

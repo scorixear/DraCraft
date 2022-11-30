@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
-namespace DraCraftModel
+namespace DraCraft.Model
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum TierType

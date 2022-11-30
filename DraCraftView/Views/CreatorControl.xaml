@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="DraCraft.View.CreatorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:DraCraft.ViewModel;assembly=DraCraftViewModel"
+             xmlns:local="clr-namespace:DraCraft.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <vm:MockCreatorControlModel x:Key="DesignViewModel"/>
+    </UserControl.Resources>
+    <Grid d:DataContext="{Binding Source={StaticResource DesignViewModel}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ItemInputGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Name" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" 
+                                 Margin="3" 
+                                 Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}" 
+                                 VerticalContentAlignment="Center"
+                                 Style="{DynamicResource MaterialDesignTextBox}"
+                                 Foreground="{DynamicResource MaterialDesignDarkForeground}"/>
+            <Label Content="Tier" Grid.Row="1" VerticalContentAlignment="Center"/>
+            <ComboBox Grid.Column="1" Grid.Row="1" Margin="3" 
+                                  ItemsSource="{Binding Tiers}" 
+                                  SelectedItem="{Binding ItemTier, UpdateSourceTrigger=PropertyChanged}"
+                                  VerticalContentAlignment="Center"/>
+            <Label Content="Category" Grid.Row="2" VerticalContentAlignment="Center"/>
+            <ComboBox Grid.Column="1" Grid.Row="2" Margin="3" 
+                                  ItemsSource="{Binding Categories}"
+                                  SelectedItem="{Binding ItemCategory, UpdateSourceTrigger=PropertyChanged}"
+                                  VerticalContentAlignment="Center"/>
+            <Label Content="Craftable" Grid.Row="3" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="CraftableCheckbox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Click="CraftableCheckbox_Click"/>
+        </Grid>
+        <Button Grid.Row="0" Grid.Column="1" Content="Create" Click="CreateItem_Click" Height="{Binding ActualHeight, ElementName=ItemInputGrid}" Margin="5"/>
+        <ScrollViewer Grid.Row="2" 
+                                  Grid.ColumnSpan="2" 
+                                  Visibility="{Binding CraftableItemsVisible, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  >
+            <StackPanel>
+                <Button Height="25" 
+                                    VerticalAlignment="Top" 
+                                    Content="+" 
+                                    Margin="0,5"
+                                    Click="AddCraftItem_Click"/>
+                <ItemsControl ItemsSource="{Binding CraftItems, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{Binding CraftItems}" Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox ItemsSource="{Binding Resources, UpdateSourceTrigger=PropertyChanged}" 
+                                                      SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="5,0,0,0"
+                                                      Height="40">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{Binding Path=Tier, Converter={StaticResource DefaultEnumToStringConverter}}"
+                                                                       Margin="0,0,5,0"
+                                                                       HorizontalAlignment="Right"/>
+                                                <TextBlock Text="{Binding Path=Name}"
+                                                                       Grid.Column="1"/>
+                                                <TextBlock Text="{Binding Path=Category, Converter={StaticResource DefaultEnumToStringConverter}}"
+                                                                       Grid.Column="1"
+                                                                       Grid.Row="1"
+                                                                       FontSize="8"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Grid Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+                                    <Label Content="Amount:" VerticalContentAlignment="Center"/>
+                                    <TextBox Text="{Binding Path=Amount}" 
+                                                         TextAlignment="Center" 
+                                                         VerticalContentAlignment="Center" 
+                                                         MinWidth="50"
+                                                         Style="{DynamicResource MaterialDesignTextBox}"
+                                                         Foreground="{DynamicResource MaterialDesignDarkForeground}"/>
+                                </Grid>
+                                <Button Grid.Column="2" Content="Delete" Click="RemoveCraftItem_Click"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+        </ScrollViewer>
+    </Grid>
+</UserControl>

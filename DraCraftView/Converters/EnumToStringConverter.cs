@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace DraCraftView
+namespace DraCraft.View
 {
     public class EnumToStringConverter : IValueConverter
     {
@@ -12,8 +12,9 @@ namespace DraCraftView
             try
             {
                 EnumString = Enum.GetName(value.GetType(), value);
-                return EnumString??string.Empty;
-            } catch
+                return EnumString ?? string.Empty;
+            }
+            catch
             {
                 return string.Empty;
             }
@@ -23,8 +24,9 @@ namespace DraCraftView
         {
             try
             {
-                return Enum.Parse(targetType, value.ToString()??"");
-            } catch
+                return Enum.Parse(targetType, value.ToString() ?? "");
+            }
+            catch
             {
 
                 return Enum.ToObject(targetType, 0);

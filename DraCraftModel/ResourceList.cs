@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DraCraftModel
+namespace DraCraft.Model
 {
     public class ResourceList
     {
@@ -32,7 +32,7 @@ namespace DraCraftModel
                 resourceList.Resources.Add(new Resource("Tierhaut", TierType.T1, CategoryType.Lederverarbeitung));
                 resourceList.Resources.Add(new Resource("Tierhaut", TierType.T4, CategoryType.Lederverarbeitung));
                 resourceList.Resources.Add(new Resource("Tierhaut", TierType.T5, CategoryType.Lederverarbeitung));
-                resourceList.Resources.Add(new CraftableResource("Raues Leder", TierType.T2, CategoryType.Lederverarbeitung, new Dictionary<(string, TierType), uint>(){
+                resourceList.Resources.Add(new CraftableResource("Raues Leder", TierType.T2, CategoryType.Lederverarbeitung, new Dictionary<(string, TierType), double>(){
                     {("Tierhaut", TierType.T1), 4 }
                 }));
                 resourceList.Save();

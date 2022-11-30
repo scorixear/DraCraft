@@ -5,12 +5,13 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>DraCraft_Logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\DraCraft_Logo.ico</ApplicationIcon>
     <AssemblyName>DraCraft</AssemblyName>
+    <RootNamespace>DraCraft.View</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="DraCraft_Logo.ico" />
+    <Content Include="Assets\DraCraft_Logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DraCraftModel\DraCraftModel.csproj" />
+    <ProjectReference Include="..\DraCraftViewModel\DraCraftViewModel.csproj" />
   </ItemGroup>
 
 </Project>
